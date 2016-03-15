@@ -1,0 +1,37 @@
+COMMAND SYNTAX
+hw1 hexdump [file]
+hw1 enc-base64 [file]
+hw1 dec-base64 [file]
+
+DESCRIPTION
+
+hexdump:  displays the files or standard input in  hexadecimal and in corresponding character in ASCII.
+
+enc-base64:  divide files into 3 bytes data sets and encode the data with Base64 encoding table to 4 bytes ASCII sequence.
+
+dec-base64: divide files into 4 bytes data sets and decode the data with Base64 encoding table to 3 bytes.
+
+[file]: can be a existed file or standard input (stdin)
+
+HANDLING ERROR
+
+if [file] does not exist, return and stderr to output "No such file or directory";
+if command is not valid, for example,
+./hw1
+./hw1 xyz
+./hw1 abc def ghi
+./hw1 -y hexdump
+return and stderr to output "malformed command";
+
+if input data is bad for decode base64, for exmample,
+./hw1 dec-base64 $srcdir/f200.b64
+                    (should not generate anything but error messages)
+                ./hw1 dec-base64 $srcdir/f201.b64
+                    (should not generate anything but error messages)
+                ./hw1 dec-base64 $srcdir/f202.b64 > /dev/null
+                    (should generate error messages to stderr)
+return and stderr to output "invliad input data"
+
+In hexdump, if random input data to stdin, it will output every 16 bytes. Then output the rest of the data after hitting CTRL+D.
+In enc-base64 or dec-base64, it will output data after hitting <ENTER>. Then output the rest of the data after hitting CTRL+D.
+
